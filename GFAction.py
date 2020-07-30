@@ -1,8 +1,8 @@
 import abc
 import traceback
-from typing import Dict
+import os
 
-from airtest.core.api import *
+from airtest.core.api import Template, loop_find, TargetNotFoundError, time
 from airtest.report.report import simple_report
 
 import Application
@@ -10,7 +10,7 @@ import Util
 
 
 class GFAction(Application.Application):
-    map: Dict[str, tuple] = {}
+    map = {}
     refList = []  # (Template,expectedXY)
     COMPENSATE_TIME = 3
     run_times = None
@@ -20,6 +20,12 @@ class GFAction(Application.Application):
     @abc.abstractmethod
     def filePath(self):
         pass
+
+    def __init__(self):
+        super().__init__()
+        # log_path = os.path.join(os.path.dirname(os.path.abspath(self.filePath())), "log")
+        # if os.path.exists(log_path):
+        #     shutil.rmtree(os.path.join(os.path.dirname(os.path.abspath(self.filePath())), "log"))
 
     def addCompensateTuple(self, template, expectedXY):
         self.refList.append((template, expectedXY))
@@ -112,7 +118,7 @@ class GFAction(Application.Application):
         times = int((2 * time_range) / interval)
         i = 0
         while i < times:
-            if not exists(picture):
+            if not self.existsFast(picture):
                 self.sleep(10)
             else:
                 self.sleep(3)

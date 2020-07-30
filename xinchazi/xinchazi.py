@@ -28,8 +28,10 @@ class Controller(GFAction.GFAction):
         self.addCompensateTuple(ImageUtil.getImageTemplate("anjielika"), (1061, 419))
 
     def step(self):
-        v1 = self.existsFast(ImageUtil.getImageTemplate("chazi"))
-        v2 = self.existsFast(ImageUtil.getImageTemplate("chazi2"))
+        v1 = self.existsFast(
+            ImageUtil.getImageTemplate(r"xcz_normal.png", record_pos=(-0.113, -0.024), resolution=(2340, 1080)))
+        v2 = self.existsFast(
+            ImageUtil.getImageTemplate(r"xcz_small.png", record_pos=(-0.132, -0.027), resolution=(2340, 1080)))
         if v1:
             self.touch(v1)
         elif v2:
@@ -38,6 +40,7 @@ class Controller(GFAction.GFAction):
             raise Exception("找不到新叉子")
 
         self.touch(ImageUtil.getImageTemplate("battle_confirm"))
+
         self.sleep(5)
 
         assert_exists(ImageUtil.getImageTemplate("battle_begin"), "开始作战")
@@ -75,6 +78,17 @@ class Controller(GFAction.GFAction):
         self.touchBlank()
         self.sleep(8)
 
+    def test(self):
+        v1 = self.existsFast(
+            ImageUtil.getImageTemplate(r"xcz_normal.png", record_pos=(-0.113, -0.024), resolution=(2340, 1080)))
+        v2 = self.existsFast(
+            ImageUtil.getImageTemplate(r"xcz_small.png", record_pos=(-0.132, -0.027), resolution=(2340, 1080)))
+
+        print(v1)
+        print(v2)
+        # print(exists(Template(r"xcz_small.png", record_pos=(-0.132, -0.027), resolution=(2340, 1080))))
+
 
 c = Controller()
 c.run()
+# c.test()

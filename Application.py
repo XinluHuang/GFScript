@@ -1,14 +1,14 @@
 import abc
+import os
 import random
 
 from airtest.cli.parser import cli_setup
-from airtest.core.api import *
+from airtest.core.api import Template, time, auto_setup, exists
 
 import Const
 import DeviceConfig
 import ImageUtil
 import Util
-import shutil
 
 
 class Application:
@@ -24,9 +24,6 @@ class Application:
         pass
 
     def __init__(self):
-        log_path=os.path.join(os.path.dirname(os.path.abspath(self.filePath())), "log")
-        if os.path.exists(log_path):
-            shutil.rmtree(os.path.join(os.path.dirname(os.path.abspath(self.filePath())), "log"))
         self.config = DeviceConfig.getDeviceConfig(Const.CONNECT_TYPE_PHONE)
         if not cli_setup():
             auto_setup(self.filePath(), logdir=True, devices=[

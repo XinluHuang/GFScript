@@ -17,11 +17,3 @@ CONNECT_TYPE_WIFI = 3
 #         return False
 #
 #
-# info = os.popen("adb devices").readlines()
-# for inx, line in enumerate(info):
-#     if inx == 0 or str.strip(line) == "":
-#         continue
-#     t = str.split(line, '\t')[0]
-#     t = str.split(t, ':')[0]
-#     print(judge_legal_ip(t))
-#     # print(t)

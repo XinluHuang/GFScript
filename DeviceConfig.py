@@ -1,9 +1,11 @@
 import Const
+import os
 
 
 class DeviceConfig:
     CMD = None
     DEV = None
+    SERIAL = None
     # 一级战斗页面
     BLANK = None
     SCHEDULE = None
@@ -26,10 +28,21 @@ class DeviceConfig:
     TERMINATE_RENEW = None
 
 
-def getDeviceConfig(t):
+def getDeviceConfig(t=None):
     if type(t) != int:
-        raise Exception("输入类型不为数字")
-        return False
+        devices = []
+        res = os.popen("adb devices").readlines()
+        for inx, line in enumerate(res):
+            if inx == 0 or str.strip(line) == "":
+                continue
+            devices.append(str.split(line, '\t')[0])
+        l = len(devices)
+        if l <= 0:
+            raise Exception("找不到设备")
+        elif l >= 2:
+            raise Exception(str.format("找到%d设备,不能确认" % l))
+        else:
+            return creatSerialConfig(devices[0])
     if t == Const.CONNECT_TYPE_PHONE:
         return creatPhoneConfig()
     elif t == Const.CONNECT_TYPE_WIFI:
@@ -44,23 +57,42 @@ def getDeviceConfig(t):
 def creatPhoneConfig():
     instance = DeviceConfig()
     instance.CMD = "adb -d shell input swipe "
-    instance.DEV = "Android://127.0.0.1:5037/e9cc22c5?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH"
+    instance.SERIAL = "e9cc22c5"
+    instance.DEV = "Android://127.0.0.1:5037/" + instance.SERIAL + "?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH"
 
-    instance.BLANK = (1589, 62)
-    instance.SCHEDULE = (157, 893)
-    instance.END_BEGIN = (2120, 972)
-    instance.TERMINATE = (502, 79)
-    instance.FAIRY_ON_OFF_ONCE = (2195, 622)
-    instance.FAIRY_ON_OFF_PERSISTENT = (2183, 335)
-
-    instance.ECHELON_SUPPLY = (1971, 833)
-    instance.ECHELON_WITHDRAW = (1667, 966)
-    instance.ECHELON_CANCEL = (1937, 955)
-
-    instance.ECHELON_ADD_CERTAIN = instance.ECHELON_CANCEL
-
-    instance.DIALOG_CERTAIN = (1311, 756)
-    instance.DIALOG_CANCEL = (993, 756)
-
-    instance.TERMINATE_RENEW = (944, 732)
+    initButton(instance)
     return instance
+
+
+def creatSerialConfig(serial):
+    if type(serial) != str:
+        raise Exception("类型错误")
+    instance = DeviceConfig()
+    instance.SERIAL = serial
+    instance.CMD = "adb -s " + serial + " shell input swipe "
+    instance.DEV = "Android://127.0.0.1:5037/" + serial + "?cap_method=JAVACAP&&ori_method=ADBORI&&touch_method=ADBTOUCH"
+
+    initButton(instance)
+    return instance
+
+
+def initButton(dev):
+    if type(dev) != DeviceConfig:
+        raise Exception("类型错误")
+    dev.BLANK = (1526, 68)
+    dev.SCHEDULE = (190, 847)
+    dev.END_BEGIN = (2084, 947)
+    dev.TERMINATE = (527, 66)
+    dev.FAIRY_ON_OFF_ONCE = (2157, 590)
+    dev.FAIRY_ON_OFF_PERSISTENT = (2155, 320)
+
+    dev.ECHELON_SUPPLY = (1933, 807)
+    dev.ECHELON_WITHDRAW = (1654, 916)
+    dev.ECHELON_CANCEL = (1918, 918)
+
+    dev.ECHELON_ADD_CERTAIN = dev.ECHELON_CANCEL
+
+    dev.DIALOG_CERTAIN = (1317, 717)
+    dev.DIALOG_CANCEL = (1007, 710)
+
+    dev.TERMINATE_RENEW = (944, 712)

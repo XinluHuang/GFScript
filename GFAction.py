@@ -151,6 +151,8 @@ class GFAction(Application.Application):
                 i = i + 1
                 self.now_times = i
                 print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
+                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
+                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
         except Exception as e:
             f = open(self.TRACE_PATH, 'w', encoding="UTF-8")
             traceback.print_exc(None, f, True)

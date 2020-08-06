@@ -24,7 +24,7 @@ class Application:
         pass
 
     def __init__(self):
-        self.config = DeviceConfig.getDeviceConfig(Const.CONNECT_TYPE_PHONE)
+        self.config = DeviceConfig.getDeviceConfig()
         if not cli_setup():
             auto_setup(self.filePath(), logdir=True, devices=[
                 self.config.DEV,

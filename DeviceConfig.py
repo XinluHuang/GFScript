@@ -79,20 +79,20 @@ def creatSerialConfig(serial):
 def initButton(dev):
     if type(dev) != DeviceConfig:
         raise Exception("类型错误")
-    dev.BLANK = (1526, 68)
-    dev.SCHEDULE = (190, 847)
-    dev.END_BEGIN = (2084, 947)
-    dev.TERMINATE = (527, 66)
-    dev.FAIRY_ON_OFF_ONCE = (2157, 590)
-    dev.FAIRY_ON_OFF_PERSISTENT = (2155, 320)
+    dev.BLANK = (1589, 62)
+    dev.SCHEDULE = (157, 893)
+    dev.END_BEGIN = (2120, 972)
+    dev.TERMINATE = (502, 79)
+    dev.FAIRY_ON_OFF_ONCE = (2195, 622)
+    dev.FAIRY_ON_OFF_PERSISTENT = (2183, 335)
 
-    dev.ECHELON_SUPPLY = (1933, 807)
-    dev.ECHELON_WITHDRAW = (1654, 916)
-    dev.ECHELON_CANCEL = (1918, 918)
+    dev.ECHELON_SUPPLY = (1971, 833)
+    dev.ECHELON_WITHDRAW = (1667, 966)
+    dev.ECHELON_CANCEL = (1937, 955)
 
     dev.ECHELON_ADD_CERTAIN = dev.ECHELON_CANCEL
 
-    dev.DIALOG_CERTAIN = (1317, 717)
-    dev.DIALOG_CANCEL = (1007, 710)
+    dev.DIALOG_CERTAIN = (1311, 756)
+    dev.DIALOG_CANCEL = (993, 756)
 
-    dev.TERMINATE_RENEW = (944, 712)
+    dev.TERMINATE_RENEW = (944, 732)

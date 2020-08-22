@@ -9,7 +9,7 @@ cache = {}
 SUFFIX = ".png"
 
 
-def getImageTemplate(file_name, threshold=None, target_pos=TargetPos.MID, record_pos=None, resolution=(), rgb=False):
+def getImageTemplate(file_name, threshold=0.8, target_pos=TargetPos.MID, record_pos=None, resolution=(), rgb=True):
     if type(file_name) != str:
         raise Exception("不是字符串,类型错误")
     file_name = str.split(file_name, '.')[0] + SUFFIX

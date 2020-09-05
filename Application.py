@@ -9,6 +9,7 @@ import Const
 import DeviceConfig
 import ImageUtil
 import Util
+import logging
 
 
 class Application:
@@ -29,6 +30,8 @@ class Application:
             auto_setup(self.filePath(), logdir=True, devices=[
                 self.config.DEV,
             ])
+        logging.basicConfig(filename="log.txt",filemode='w',level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        logging.getLogger(self.filePath())
         ImageUtil.addLocalImageRoot(os.path.dirname(self.filePath()))
 
     @staticmethod
@@ -55,3 +58,5 @@ class Application:
     @staticmethod
     def exists(obj):
         return exists(obj)
+
+print(__file__)

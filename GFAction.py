@@ -1,12 +1,14 @@
 import abc
-import traceback
+import logging
 import os
+import traceback
 
 from airtest.core.api import Template, loop_find, TargetNotFoundError, time
 from airtest.report.report import simple_report
 
 import Application
 import Util
+from Context import Context
 
 
 class GFAction(Application.Application):
@@ -16,6 +18,7 @@ class GFAction(Application.Application):
     run_times = None
     now_times = None
     TRACE_PATH = os.path.abspath("trace.txt")
+    context = Context()
 
     @abc.abstractmethod
     def filePath(self):
@@ -132,11 +135,15 @@ class GFAction(Application.Application):
         self.sleep(sleep_time)
 
     @staticmethod
-    def existsFast(tem):
-        try:
-            return loop_find(tem, timeout=1, interval=0.1)
-        except TargetNotFoundError:
-            return False
+    def existsFast(*args):
+        i = 0
+        while i < args.__len__():
+            try:
+                return loop_find(args[i], timeout=1, interval=0.1)
+            except TargetNotFoundError:
+                logging.warning("找不到图片%s" % (args[i].filename))
+                i = i + 1
+        return False
 
     def run(self, times=None):
         if times:
@@ -160,10 +167,15 @@ class GFAction(Application.Application):
             f.write(localtime.__str__() + "\n")
             f.flush()
             f.close()
-            os.system("start " + self.TRACE_PATH)
+            if not self.context.debug:
+                os.system("start " + self.TRACE_PATH)
             # print(traceback.format_exc())
             traceback.print_exc()
+        except KeyboardInterrupt as interrupt:
+            if not self.context.debug:
+                os.system("start " + self.TRACE_PATH)
         finally:
+            print(str.format("第%d次未完整完成,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
             simple_report(self.filePath(), logpath=True)
 
     def getNowTimes(self):

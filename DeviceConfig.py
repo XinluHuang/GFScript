@@ -36,11 +36,11 @@ def getDeviceConfig(t=None):
             if inx == 0 or str.strip(line) == "":
                 continue
             devices.append(str.split(line, '\t')[0])
-        l = len(devices)
-        if l <= 0:
+        devicesCount = len(devices)
+        if devicesCount <= 0:
             raise Exception("找不到设备")
-        elif l >= 2:
-            raise Exception(str.format("找到%d设备,不能确认" % l))
+        elif devicesCount >= 2:
+            raise Exception(str.format("找到%d台设备,不能确认" % devicesCount))
         else:
             return creatSerialConfig(devices[0])
     if t == Const.CONNECT_TYPE_PHONE:

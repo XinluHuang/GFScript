@@ -9,6 +9,8 @@ from ImageUtil import getImageTemplate as find
 
 hq = "hq"
 e1 = "e1"
+ap = "ap"
+ehq = "ehq"
 
 
 class Controller(GFAction.GFAction):
@@ -20,31 +22,30 @@ class Controller(GFAction.GFAction):
 
     def compensateConfig(self):
         dic = self.getMap()
-        dic[hq] = (820, 536)
-        dic[e1] = (1473, 541)
-        t = find(r"tip.png")
-        self.addCompensateTuple(t, (976, 477))
+        dic[hq] = (1069, 470)
+        dic[e1] = (1403, 817)
+        dic[ap] = (717, 632)
+        dic[ehq] = (1309, 985)
+        t = find(r"hq_icon.png")
+        self.addCompensateTuple(t, (1069, 470))
 
     def step(self):
-        v1 = self.existsFast(find(r"enter.png"), find(r"enter_normal.png"))
-        v1 = (v1[0] + 80, v1[1])
-        self.touch(v1)
-        self.touch(find("battle_confirm"))
-        assert_exists(find("battle_begin"), "开始作战")
+        enter = find(r"kdjx.png")
+        assert_exists(enter, "开袋惊喜")
+        self.touch(enter)
+        self.touch(find("normal_battle"))
+        self.sleep(5)
 
         self.compensate()
         self.addEchelon(hq)
+        self.addEchelon(ap)
         self.begin()
-        if self.now_times == 0:
-            self.touch(hq)
-            if self.existsFast(find("fairy_off")):
-                self.touch(find("fairy_off"))
-            self.touchBlank()
         self.supply(hq)
-        self.schedule(hq, e1)
+        self.schedule(hq, ehq)
+        self.touch(e1)
         self.endTurn()
 
-        self.sleepUntilAssert(121, find("achievement_settlement"))
+        self.sleepUntilAssert(61, find("achievement_settlement"))
         self.touchBlank()
         self.touchBlank()
         self.touchBlank()

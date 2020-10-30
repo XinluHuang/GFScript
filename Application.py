@@ -3,7 +3,7 @@ import os
 import random
 
 from airtest.cli.parser import cli_setup
-from airtest.core.api import Template, time, auto_setup, exists
+from airtest.core.api import Template, time, auto_setup, exists, find_all
 
 import Const
 import DeviceConfig
@@ -30,7 +30,8 @@ class Application:
             auto_setup(self.filePath(), logdir=True, devices=[
                 self.config.DEV,
             ])
-        logging.basicConfig(filename="log.txt",filemode='w',level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        logging.basicConfig(filename="log.txt", filemode='w', level=logging.INFO,
+                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         logging.getLogger(self.filePath())
         ImageUtil.addLocalImageRoot(os.path.dirname(self.filePath()))
 
@@ -41,6 +42,8 @@ class Application:
     def touch(self, obj, sleep_time=1):
         if type(obj) == Template:
             obj = self.exists(obj)
+            if not obj:
+                raise Exception("找不到图片")
         elif type(obj) == tuple and obj.__len__() == 2:
             pass
         else:
@@ -58,5 +61,6 @@ class Application:
     @staticmethod
     def exists(obj):
         return exists(obj)
+
 
 print(__file__)

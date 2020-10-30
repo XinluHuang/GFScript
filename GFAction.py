@@ -3,7 +3,7 @@ import logging
 import os
 import traceback
 
-from airtest.core.api import Template, loop_find, TargetNotFoundError, time
+from airtest.core.api import Template, loop_find, TargetNotFoundError, time, find_all
 from airtest.report.report import simple_report
 
 import Application
@@ -139,11 +139,30 @@ class GFAction(Application.Application):
         i = 0
         while i < args.__len__():
             try:
+                if type(args[i]) != Template:
+                    raise Exception("传入参数不是Template")
                 return loop_find(args[i], timeout=1, interval=0.1)
             except TargetNotFoundError:
                 logging.warning("找不到图片%s" % (args[i].filename))
                 i = i + 1
         return False
+
+    def findAll(self, *args):
+        i = 0
+        res = []
+        while i < args.__len__():
+            if type(args[i]) != Template:
+                raise Exception("传入参数不是Template")
+            list = find_all(args[i])
+            if list:
+                j = 0
+                while j < list.__len__():
+                    res.append(list[j]['result'])
+                    j = j + 1
+            i = i + 1
+        if res.__len__() == 0:
+            return False
+        return res
 
     def run(self, times=None):
         if times:

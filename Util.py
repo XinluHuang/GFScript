@@ -1,6 +1,5 @@
 import random, platform
 
-
 def getPositionWithRange(v, ran):
     if type(v) == tuple and v.__len__() == 2:
         return (
@@ -34,3 +33,5 @@ def checkTupleLength2(obj):
 
 def getPlatform():
     platform.system().__str__()
+
+

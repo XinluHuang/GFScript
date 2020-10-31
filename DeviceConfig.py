@@ -33,7 +33,7 @@ def getDeviceConfig(t=None):
         devices = []
         res = os.popen("adb devices").readlines()
         for inx, line in enumerate(res):
-            if inx == 0 or str.strip(line) == "":
+            if inx == 0 or str.strip(line) == "" or str.__contains__(line, "devices") or str.__contains__(line, "List"):
                 continue
             devices.append(str.split(line, '\t')[0])
         devicesCount = len(devices)

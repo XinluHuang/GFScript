@@ -28,21 +28,15 @@ class Controller(GFAction.GFAction):
         t = find(r"hq_icon.png")
         self.addCompensateTuple(t, (1170, 543))
 
-    def test(self):
-        print(find_all(Template(r"enter_normal.png", record_pos=(-0.007, -0.048), resolution=(2340, 1080))))
-        # print(find_all(Template(r"enter_small.png", record_pos=(-0.005, -0.048), resolution=(2340, 1080))))
-
     def step(self):
         res = self.findAll(find(r"enter_normal.png"), find(r"enter_small.png"))
         if not res:
             raise Exception("找不到狂欢夜行入口")
         logging.info("res is " + res.__str__())
-        i = 1
         temp = res[0]
-        while i < res.__len__():
+        for i in range(0, res.__len__()):
             if res[i][0] < temp[0] and res[i][1] > temp[1]:
                 temp = res[i]
-            i = i + 1
         self.touch(temp)
         self.touch(find("battle_confirm"))
         self.sleep(5)
@@ -70,4 +64,3 @@ class Controller(GFAction.GFAction):
 
 c = Controller()
 c.run()
-# c.test()

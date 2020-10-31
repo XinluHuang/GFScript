@@ -1,4 +1,4 @@
-import random
+import random, platform
 
 
 def getPositionWithRange(v, ran):
@@ -30,3 +30,7 @@ def getAssistWaitPos(pos):
 
 def checkTupleLength2(obj):
     return type(obj) == tuple and obj.__len__() == 2
+
+
+def getPlatform():
+    platform.system().__str__()

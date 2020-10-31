@@ -40,8 +40,7 @@ class GFAction(Application.Application):
     def compensate(self):
         self.refList.clear()
         self.compensateConfig()
-        i = 0
-        while i < self.COMPENSATE_TIME:
+        for i in range(0, self.COMPENSATE_TIME):
             for entry in self.refList:
                 template = entry[0]
                 expectedXY = entry[1]
@@ -54,7 +53,6 @@ class GFAction(Application.Application):
                     return
                 else:
                     continue
-            i = i + 1
         raise BaseException(str.format("找不到参照点,重复%d次" % self.COMPENSATE_TIME))
 
     def getMap(self):
@@ -119,14 +117,12 @@ class GFAction(Application.Application):
     def sleepUntilAssert(self, sleep_time, picture, interval=10, time_range=20):
         self.sleep(sleep_time - time_range)
         times = int((2 * time_range) / interval)
-        i = 0
-        while i < times:
+        for i in range(0, times):
             if not self.existsFast(picture):
                 self.sleep(10)
             else:
                 self.sleep(3)
                 return
-            i = i + 1
         raise Exception("找不到图片" + picture.__str__())
 
     def renew(self, sleep_time=4):
@@ -136,30 +132,24 @@ class GFAction(Application.Application):
 
     @staticmethod
     def existsFast(*args):
-        i = 0
-        while i < args.__len__():
+        for i in range(0, args.__len__()):
             try:
                 if type(args[i]) != Template:
                     raise Exception("传入参数不是Template")
                 return loop_find(args[i], timeout=1, interval=0.1)
             except TargetNotFoundError:
                 logging.warning("找不到图片%s" % (args[i].filename))
-                i = i + 1
         return False
 
     def findAll(self, *args):
-        i = 0
         res = []
-        while i < args.__len__():
+        for i in range(0, args.__len__()):
             if type(args[i]) != Template:
                 raise Exception("传入参数不是Template")
             list = find_all(args[i])
             if list:
-                j = 0
-                while j < list.__len__():
+                for j in range(0, list.__len__()):
                     res.append(list[j]['result'])
-                    j = j + 1
-            i = i + 1
         if res.__len__() == 0:
             return False
         return res
@@ -171,10 +161,8 @@ class GFAction(Application.Application):
             self.run_times = int(input("input times\n"))
         self.now_times = 0
         try:
-            i = 0
-            while i < self.run_times:
+            for i in range(0, self.run_times):
                 self.step()
-                i = i + 1
                 self.now_times = i
                 print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
                 print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
@@ -186,12 +174,12 @@ class GFAction(Application.Application):
             f.write(localtime.__str__() + "\n")
             f.flush()
             f.close()
-            if not self.context.debug:
+            if self.context.debug:
                 os.system("start " + self.TRACE_PATH)
             # print(traceback.format_exc())
             traceback.print_exc()
         except KeyboardInterrupt as interrupt:
-            if not self.context.debug:
+            if self.context.debug:
                 os.system("start " + self.TRACE_PATH)
         finally:
             print(str.format("第%d次未完整完成,剩余%d次" % (self.now_times, self.run_times - self.now_times)))

@@ -5,7 +5,6 @@ import random
 from airtest.cli.parser import cli_setup
 from airtest.core.api import Template, time, auto_setup, exists, find_all
 
-import Const
 import DeviceConfig
 import ImageUtil
 import Util

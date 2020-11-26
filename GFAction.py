@@ -164,9 +164,8 @@ class GFAction(Application.Application):
             for i in range(0, self.run_times):
                 self.step()
                 self.now_times = i
-                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
-                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
-                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
+                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times - 1)))
+                print(str.format("第%d次,剩余%d次" % (self.now_times, self.run_times - self.now_times - 1)))
         except Exception as e:
             f = open(self.TRACE_PATH, 'w', encoding="UTF-8")
             traceback.print_exc(None, f, True)
@@ -182,7 +181,7 @@ class GFAction(Application.Application):
             if self.context.debug:
                 os.system("start " + self.TRACE_PATH)
         finally:
-            print(str.format("第%d次未完整完成,剩余%d次" % (self.now_times, self.run_times - self.now_times)))
+            print(str.format("第%d次未完整完成,剩余%d次" % (self.now_times, self.run_times - self.now_times - 1)))
             simple_report(self.filePath(), logpath=True)
 
     def getNowTimes(self):

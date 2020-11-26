@@ -22,32 +22,35 @@ class Controller(GFAction.GFAction):
 
     def compensateConfig(self):
         dic = self.getMap()
-        dic[hq] = (1170, 543)
-        dic[e1] = (1168, 310)
-        dic[ehq] = (1168, 235)
-        t = find(r"hq_icon.png")
-        self.addCompensateTuple(t, (1170, 543))
+        dic[hq] = (896, 542)
+        dic[e1] = (1455, 377)
+        dic[ehq] = (1455, 212)
+        t = find(r"hq.png")
+        self.addCompensateTuple(t, (896, 542))
+
+    def test(self):
+        print(find_all(Template(r"enter2.png", record_pos=(0.157, 0.06), resolution=(2340, 1080))))
+        pass
 
     def step(self):
-        res = self.findAll(find(r"enter_normal.png"), find(r"enter_small.png"))
+        res = self.findAll(find(r"enter2.png"), find(r"enter.png"))
         if not res:
-            raise Exception("找不到狂欢夜行入口")
-        logging.info("res is " + res.__str__())
-        temp = res[0]
-        for i in range(0, res.__len__()):
-            if res[i][0] < temp[0] and res[i][1] > temp[1]:
-                temp = res[i]
-        self.touch(temp)
+            raise Exception("找不到入口")
+        res = res[0]
+        res = (res[0] + 20, res[1] + 20)
+        logging.info("res is " + res[0].__str__())
+        print("res is " + res[0].__str__())
+        self.touch(res)
+        self.sleep(1)
         self.touch(find("battle_confirm"))
         self.sleep(5)
 
         self.compensate()
         self.addEchelon(hq)
         self.begin()
+
         self.supply(hq)
         self.schedule(hq, ehq)
-        self.touch(e1)
-        self.touch(ehq)
         self.touch(e1)
         self.endTurn()
 
@@ -64,3 +67,4 @@ class Controller(GFAction.GFAction):
 
 c = Controller()
 c.run()
+# c.test()

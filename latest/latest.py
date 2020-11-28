@@ -33,16 +33,25 @@ class Controller(GFAction.GFAction):
         pass
 
     def step(self):
-        res = self.findAll(find(r"enter2.png"), find(r"enter.png"))
+        # res = self.findAll(find(r"enter2.png"), find(r"enter.png"))
+        # if not res:
+        #     raise Exception("找不到入口")
+        # res = res[0]
+        # res = (res[0] + 20, res[1] + 20)
+        # logging.info("res is " + res[0].__str__())
+        # print("res is " + res[0].__str__())
+        for i in range(0, 5):
+            self.touch((1427,559))
+            res = self.findAll(find("battle_confirm"))
+            if not res:
+                continue
+            else:
+                res = res[0]
+                break
         if not res:
             raise Exception("找不到入口")
-        res = res[0]
-        res = (res[0] + 20, res[1] + 20)
-        logging.info("res is " + res[0].__str__())
-        print("res is " + res[0].__str__())
-        self.touch(res)
-        self.sleep(1)
-        self.touch(find("battle_confirm"))
+        else:
+            self.touch(res)
         self.sleep(5)
 
         self.compensate()

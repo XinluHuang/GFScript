@@ -40,8 +40,9 @@ class Controller(GFAction.GFAction):
         # res = (res[0] + 20, res[1] + 20)
         # logging.info("res is " + res[0].__str__())
         # print("res is " + res[0].__str__())
-        for i in range(0, 5):
-            self.touch((1427,559))
+        point = (575, 729)
+        for i in range(0, 4):
+            self.touch(point)
             res = self.findAll(find("battle_confirm"))
             if not res:
                 continue

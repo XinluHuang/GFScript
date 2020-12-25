@@ -2,15 +2,23 @@ import sys
 
 from airtest.core.api import *
 
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 import GFAction, logging
 from ImageUtil import getImageTemplate as find
 
+
 hq = "hq"
+e0="e0"
 e1 = "e1"
+e2 = "e2"
+e3 = "e3"
 ap = "ap"
 ehq = "ehq"
+apl="apl"
+apr="apr"
+
 
 
 class Controller(GFAction.GFAction):
@@ -22,46 +30,43 @@ class Controller(GFAction.GFAction):
 
     def compensateConfig(self):
         dic = self.getMap()
-        dic[hq] = (896, 542)
-        dic[e1] = (1455, 377)
-        dic[ehq] = (1455, 212)
-        t = find(r"hq.png")
-        self.addCompensateTuple(t, (896, 542))
+        dic[hq] = (1156, 546)
+        dic[apl] = (790, 130)
+        dic[apr] = (1522, 218)
+        dic[e0] = (716, 600)
+        dic[e1] = (973, 477)
+        dic[e2] = (1424, 400)
+        dic[e3] = (928, 235)
+        v = find("hq")
+        self.addCompensateTuple(v, (1166, 556))
 
     def test(self):
-        print(find_all(Template(r"enter2.png", record_pos=(0.157, 0.06), resolution=(2340, 1080))))
         pass
 
     def step(self):
-        # res = self.findAll(find(r"enter2.png"), find(r"enter.png"))
-        # if not res:
-        #     raise Exception("找不到入口")
-        # res = res[0]
-        # res = (res[0] + 20, res[1] + 20)
-        # logging.info("res is " + res[0].__str__())
-        # print("res is " + res[0].__str__())
-        point = (575, 729)
-        for i in range(0, 4):
-            self.touch(point)
-            res = self.findAll(find("battle_confirm"))
-            if not res:
-                continue
-            else:
-                res = res[0]
-                break
-        if not res:
-            raise Exception("找不到入口")
-        else:
-            self.touch(res)
-        self.sleep(5)
+        self.touch(find("txy"),2)
+        self.touch(find("normal_battle"))
+        self.sleep(7)
 
+        self.swipe(self.existsFast(find("hq")),(1289,796),2)
         self.compensate()
+        self.touchBlank()
+        self.addEchelon(apl)
         self.addEchelon(hq)
+        self.addEchelon(apr)
         self.begin()
 
+        self.supply(apl)
         self.supply(hq)
-        self.schedule(hq, ehq)
+        self.supply(apr)
+        self.schedule(apl, e0)
         self.touch(e1)
+        self.touchBlank()
+        self.touch(hq)
+        self.touch(e2)
+        self.touchBlank()
+        self.touch(apr)
+        self.touch(e3)
         self.endTurn()
 
         self.sleepUntilAssert(91, find("achievement_settlement"))
@@ -73,7 +78,6 @@ class Controller(GFAction.GFAction):
         self.touchBlank()
         self.touchBlank()
         self.sleep(4)
-
 
 c = Controller()
 c.run()

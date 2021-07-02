@@ -24,6 +24,7 @@ class DeviceConfig:
     # 对话框
     DIALOG_CERTAIN = None
     DIALOG_CANCEL = None
+    DIALOG_BACK = None
     # 终止作战对话框
     TERMINATE_RENEW = None
 
@@ -94,5 +95,6 @@ def initButton(dev):
 
     dev.DIALOG_CERTAIN = (1311, 756)
     dev.DIALOG_CANCEL = (993, 756)
+    dev.DIALOG_BACK = (517, 204)
 
     dev.TERMINATE_RENEW = (944, 732)

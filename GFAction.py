@@ -115,7 +115,10 @@ class GFAction(Application.Application):
         self.touch(key2)
 
     def sleepUntilAssert(self, sleep_time, picture, interval=10, time_range=20):
-        self.sleep(sleep_time - time_range)
+        realtime = sleep_time - time_range
+        if realtime < 0:
+            realtime = 0
+        self.sleep(realtime)
         times = int((2 * time_range) / interval)
         for i in range(0, times):
             if not self.existsFast(picture):

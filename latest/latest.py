@@ -18,8 +18,6 @@ apl = "apl"
 apr = "apr"
 
 
-
-
 class Controller(GFAction.GFAction):
     list = None
     first = True
@@ -29,42 +27,39 @@ class Controller(GFAction.GFAction):
 
     def compensateConfig(self):
         dic = self.getMap()
-        dic[hq] = (982, 554)
-        dic[e1] = (1284, 538)
-        dic[e2] = (1284, 855)
-        self.addCompensateTuple(find("hq"), (982, 554))
+        dic[hq] = (1100, 539)
+        dic[e1] = (1587, 537)
+        dic[e2] = (1420, 537)
+        self.addCompensateTuple(find("hq"), (1100, 539))
 
     def test(self):
         print(exists(find("hq")))
-        # hq (982, 554)
-        # e1 1284 538
-        # e2 1284 855
+        # 1100 539
+
+        # e1 1587 537
+        # e2 1420 537
 
         pass
 
     def step(self):
-        big=find("ningshi_big")
-        normal=find("ningshi")
-        if self.existsFast(big):
-            self.touch(big)
-        else:
-            self.touch(normal)
-        self.sleep(2)
-        self.touch(find("battle_confirm"))
-        self.sleep(9)
+        anliu = find("anliu")
+        if self.existsFast(anliu):
+            self.touch(anliu)
+        self.touch(find("normal_battle"))
+        self.sleep(6)
 
         self.compensate()
         self.addEchelon(hq)
         self.begin()
+        self.sleepUntilAssert(22, find("mission_brief"))
+        self.touch(self.config.DIALOG_BACK)
 
         self.supply(hq)
         self.schedule(hq, e1)
         self.touch(e2)
-        self.touch(e1)
         self.endTurn()
 
-        self.sleepUntilAssert(130, find("achievement_settlement"))
-        self.touchBlank()
+        self.sleepUntilAssert(110, find("achievement_settlement"))
         self.touchBlank()
         self.touchBlank()
         self.touchBlank()

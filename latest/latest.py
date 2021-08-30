@@ -27,33 +27,33 @@ class Controller(GFAction.GFAction):
 
     def compensateConfig(self):
         dic = self.getMap()
-        dic[hq] = (1100, 539)
-        dic[e1] = (1587, 537)
-        dic[e2] = (1420, 537)
-        self.addCompensateTuple(find("hq"), (1100, 539))
+        dic[hq] = (1171, 544)
+        dic[e1] = (1171, 824)
+        dic[e2] = (1171, 738)
+        self.addCompensateTuple(find("hq"), (1171, 544))
 
     def test(self):
-        print(exists(find("hq")))
-        # 1100 539
-
-        # e1 1587 537
-        # e2 1420 537
+        print(self.existsFast(find("hq")))
+        # (890, 637)
 
         pass
 
     def step(self):
-        anliu = find("anliu")
-        if self.existsFast(anliu):
-            self.touch(anliu)
-        self.touch(find("normal_battle"))
+        entry1 = self.existsFast(find("entry1"))
+        if entry1:
+            self.touch(entry1)
+        else:
+            exit()
+        self.sleep(3)
+        self.touch(find("battle_confirm"))
         self.sleep(6)
 
         self.compensate()
         self.addEchelon(hq)
         self.begin()
-        self.sleepUntilAssert(22, find("mission_brief"))
-        self.touch(self.config.DIALOG_BACK)
-
+        # self.sleepUntilAssert(22, find("mission_brief"))
+        # self.touch(self.config.DIALOG_BACK)
+        self.sleep(2)
         self.supply(hq)
         self.schedule(hq, e1)
         self.touch(e2)
